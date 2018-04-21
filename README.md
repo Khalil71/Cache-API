@@ -32,7 +32,7 @@ $ npm run test
 
 Server runs on http://localhost:3000/
 
-### Note: the number to enter as ttl will be calculated as seconds e.g.(ttl: 10 => ttl = 10 seconds)
+### Note: the number to enter as ttl will be calculated as seconds e.g.(ttl: 10 => 10 seconds)
 
 ### Get all caches
 
