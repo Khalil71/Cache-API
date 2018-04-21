@@ -1,4 +1,4 @@
-# CAche APIs
+# Cache APIs
 
 ## Getting Started
 
