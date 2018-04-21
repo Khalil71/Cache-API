@@ -1,4 +1,4 @@
-const Cash = require('./Cache.service');
+const Cash = require('./Cache.Service');
 const { errResponse } = require('../../services/errors');
 const valid = require('../../services/validation');
 
@@ -28,7 +28,12 @@ module.exports = {
     const instance = new Cash();
     return instance
       .getAll()
-      .then(data => res.status(200).send(data))
+      .then(data => {
+        if (data.length === 0) {
+          return res.status(200).send({ message: 'Collection empty!' });
+        }
+        return res.status(200).send(data);
+      })
       .catch(e => next(errResponse(e, 403)));
   },
 
@@ -36,10 +41,14 @@ module.exports = {
     if (!req.body.key || !valid.string.test(req.body.key)) {
       return next(errResponse('key must be a string!', 403));
     }
-    if (!req.body.ttl || !valid.number.test(req.body.ttl)) {
+    if (req.body.newKey && !valid.string.test(req.body.newKey)) {
+      return next(errResponse('newKey must be a string!', 403));
+    }
+    if (req.body.ttl && !valid.number.test(req.body.ttl)) {
       return next(errResponse('ttl must be a number!', 403));
     }
-    const instance = new Cash(req.body.key, req.body.ttl);
+
+    const instance = new Cash(req.body.key, req.body.ttl, req.body.newKey);
     return instance
       .updateOne()
       .then(data => {

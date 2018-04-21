@@ -1,4 +1,4 @@
-const { stringGenLength } = require('./config');
+const { stringGenLength } = require('../config/config');
 
 module.exports = {
   randomString: () => {

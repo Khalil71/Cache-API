@@ -1,11 +1,12 @@
 const CasheModel = require('../../models/cache');
 const { randomString } = require('../../services/generator');
-const { scondsToMilli } = require('../../services/config');
+const { scondsToMilli } = require('../../config/config');
 
 class Cache {
-  constructor(key, ttl) {
+  constructor(key, ttl, newKey) {
     this.key = key;
     this.ttl = ttl;
+    this.newKey = newKey;
   }
 
   getAll() {
@@ -51,15 +52,11 @@ class Cache {
     if (this.ttl) {
       newCache.ttl = this.ttl;
     }
-    newCache.key = this.key;
+    if (this.newKey) {
+      newCache.key = this.newKey;
+    }
     newCache.createdAt = new Date();
     return CasheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
-      .then(result => result)
-      .catch(e => e);
-  }
-
-  findOne() {
-    return CasheModel.findOne({ key: this.key })
       .then(result => result)
       .catch(e => e);
   }
