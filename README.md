@@ -24,7 +24,7 @@ $ npm run start
 
 ### Testing
 
-To run all tests
+To run tests
 
 ```
 $ npm run test
