@@ -10,12 +10,12 @@ const routes = require('./src/routes/routes');
 const app = express();
 const port = process.env.PORT || 3000;
 
-mongoose.connect(
-  `mongodb://${process.env.USER}:${process.env.PASS}@ds251179.mlab.com:51179/fashiontest`,
-  () => {
+mongoose
+  .connect(`mongodb://${process.env.USER}:${process.env.PASS}@ds251179.mlab.com:51179/fashiontest`)
+  .then(() => {
     console.log('mongoose connection success'); // eslint-disable-line
-  }
-);
+  })
+  .catch(e => console.log(e.message)); // eslint-disable-line
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
