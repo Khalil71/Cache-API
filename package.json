@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha src/tests/*.test.js",
-    "start": "node server"
+    "start": "PASS='test' USER='test' node server"
   },
   "author": "khalil",
   "license": "ISC",

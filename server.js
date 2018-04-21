@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const morgan = require('morgan');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
@@ -10,11 +10,14 @@ const routes = require('./src/routes/routes');
 const app = express();
 const port = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://test:test@ds251179.mlab.com:51179/fashiontest', () => {
-  console.log('mongoose connection success'); // eslint-disable-line
-});
+mongoose.connect(
+  `mongodb://${process.env.USER}:${process.env.PASS}@ds251179.mlab.com:51179/fashiontest`,
+  () => {
+    console.log('mongoose connection success'); // eslint-disable-line
+  }
+);
 
-// app.use(morgan('combined'));
+app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
