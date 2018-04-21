@@ -18,6 +18,8 @@ class Cache {
   findCash() {
     return CasheModel.findOne({ key: this.key })
       .then(result => {
+        // check if cache expired if true ttl is reset but updating the createdAt to new Date()
+        // else return cache
         if (
           result != null &&
           Date.parse(result.createdAt) + result.ttl * scondsToMilli < Date.parse(new Date())
@@ -55,6 +57,7 @@ class Cache {
     if (this.newKey) {
       newCache.key = this.newKey;
     }
+    // if cache is updated the ttl is automatically reset by setting createdAt to new Date()
     newCache.createdAt = new Date();
     return CasheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
       .then(result => result)
