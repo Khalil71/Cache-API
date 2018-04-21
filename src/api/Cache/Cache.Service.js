@@ -3,10 +3,13 @@ const { randomString } = require('../../services/generator');
 const { scondsToMilli } = require('../../config/config');
 
 class Cache {
-  constructor(key, ttl, newKey) {
-    this.key = key;
-    this.ttl = ttl;
-    this.newKey = newKey;
+  constructor(data) {
+    if (data) {
+      this.key = data.key;
+      this.ttl = data.ttl;
+      this.newKey = data.newKey;
+      this.value = data.value;
+    }
   }
 
   getAll() {
@@ -15,7 +18,7 @@ class Cache {
       .catch(e => e);
   }
 
-  findCash() {
+  findCache() {
     return CasheModel.findOne({ key: this.key })
       .then(result => {
         // check if cache expired return true for the cache to be updated
@@ -31,10 +34,22 @@ class Cache {
       .catch(e => e);
   }
 
-  addCash() {
+  updateForFindCache() {
+    const newCache = {};
+    newCache.value = randomString();
+    newCache.createdAt = new Date();
+    return CasheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
+      .then(result => result)
+      .catch(e => e);
+  }
+
+  addCache() {
     const newCache = {};
     if (this.ttl) {
       newCache.ttl = this.ttl;
+    }
+    if (this.value) {
+      newCache.value = this.value;
     }
     newCache.key = this.key;
     const cash = new CasheModel(newCache);
@@ -52,9 +67,11 @@ class Cache {
     if (this.newKey) {
       newCache.key = this.newKey;
     }
+    if (this.value) {
+      newCache.value = this.value;
+    }
     // if cache is updated the ttl is automatically reset by setting createdAt to new Date()
     newCache.createdAt = new Date();
-    newCache.value = randomString();
     return CasheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
       .then(result => result)
       .catch(e => e);
