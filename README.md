@@ -16,7 +16,7 @@ node.js
 $ npm i
 ```
 
-To run the server
+### To run the server
 
 ```
 $ npm run start
