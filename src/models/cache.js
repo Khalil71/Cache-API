@@ -37,4 +37,5 @@ casheSchema.pre('save', next => {
     return next();
   });
 });
+
 module.exports = Cache;

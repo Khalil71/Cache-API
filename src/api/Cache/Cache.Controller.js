@@ -11,7 +11,14 @@ module.exports = {
     return instance
       .findCash()
       .then(data => {
-        if (data != null) {
+        if (data === true) {
+          console.log('Cache hit'); // eslint-disable-line
+          return instance
+            .updateOne()
+            .then(result => res.status(200).send(result))
+            .catch(e => next(errResponse(e, 403)));
+        }
+        if (data !== true && data !== null) {
           console.log('Cache hit'); // eslint-disable-line
           return res.status(200).send(data);
         }
