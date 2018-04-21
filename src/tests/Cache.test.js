@@ -22,74 +22,90 @@ describe('Cache Tests', () => {
     });
   });
 
-  it('should create a new Cache', done => {
-    const key = 'someCache';
-    const ttl = 20;
-    const instance = new Cache(key, ttl);
-    const Create = instance.addCash();
+  it('should create a new Cache with ttl and value', done => {
+    const data = {
+      key: 'someCache',
+      ttl: 20,
+      value: 'someValue'
+    };
+    const instance = new Cache(data);
+    const Create = instance.addCache();
     Create.then(result => {
-      expect(result.key).to.equal(key);
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.key);
+      expect(result.ttl).to.equal(data.ttl);
+      expect(result.value).to.equal(data.value);
       done();
     });
   });
 
-  it('should create a new Cache', done => {
-    const key = 'someKindOfCache';
-    const ttl = 50;
-    const instance = new Cache(key, ttl);
-    const Create = instance.addCash();
+  it('should create a new Cache with ttl and a random value', done => {
+    const data = {
+      key: 'someKindOfCache',
+      ttl: 50
+    };
+    const instance = new Cache(data);
+    const Create = instance.addCache();
     Create.then(result => {
-      expect(result.key).to.equal(key);
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.key);
+      expect(result.ttl).to.equal(data.ttl);
       done();
     });
   });
 
-  it('should create a new Cache', done => {
-    const key = 'someCache1';
-    const ttl = 20;
-    const instance = new Cache(key, ttl);
-    const Create = instance.addCash();
+  it('should create a new Cache with ttl and a random value', done => {
+    const data = {
+      key: 'someCache1',
+      ttl: 20
+    };
+    const instance = new Cache(data);
+    const Create = instance.addCache();
     Create.then(result => {
-      expect(result.key).to.equal(key);
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.key);
+      expect(result.ttl).to.equal(data.ttl);
       done();
     });
   });
 
-  it('should create a new Cache', done => {
-    const key = 'someKindOfCache1';
-    const ttl = 50;
-    const instance = new Cache(key, ttl);
-    const Create = instance.addCash();
+  it('should create a new Cache with default ttl and a random value', done => {
+    const data = {
+      key: 'someKindOfCache1'
+    };
+    const instance = new Cache(data);
+    const Create = instance.addCache();
     Create.then(result => {
-      expect(result.key).to.equal(key);
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.key);
       done();
     });
   });
 
-  it('should create a new Cache', done => {
-    const key = 'someCache2';
-    const ttl = 20;
-    const instance = new Cache(key, ttl);
-    const Create = instance.addCash();
+  it('should create a new Cache with ttl and a value', done => {
+    const data = {
+      key: 'someCache2',
+      ttl: 20,
+      value: 'someOtherValue'
+    };
+    const instance = new Cache(data);
+    const Create = instance.addCache();
     Create.then(result => {
-      expect(result.key).to.equal(key);
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.key);
+      expect(result.ttl).to.equal(data.ttl);
+      expect(result.value).to.equal(data.value);
       done();
     });
   });
 
-  it('should create a new Cache', done => {
-    const key = 'someKindOfCache2';
-    const ttl = 50;
-    const instance = new Cache(key, ttl);
-    const Create = instance.addCash();
+  it('should create a new Cache with ttl and a value', done => {
+    const data = {
+      key: 'someKindOfCache2',
+      ttl: 50,
+      value: 'someOtherValue2'
+    };
+    const instance = new Cache(data);
+    const Create = instance.addCache();
     Create.then(result => {
-      expect(result.key).to.equal(key);
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.key);
+      expect(result.ttl).to.equal(data.ttl);
+      expect(result.value).to.equal(data.value);
       done();
     });
   });
@@ -104,9 +120,11 @@ describe('Cache Tests', () => {
   });
 
   it('should find no cache', done => {
-    const key = 'someOtherCache';
-    const instance = new Cache(key);
-    const Create = instance.findCash();
+    const data = {
+      key: 'someOtherCache'
+    };
+    const instance = new Cache(data);
+    const Create = instance.findCache();
     Create.then(result => {
       expect(result).to.equal(null);
       done();
@@ -114,53 +132,60 @@ describe('Cache Tests', () => {
   });
 
   it('should find cache with this key', done => {
-    const key = 'someKindOfCache';
-    const instance = new Cache(key);
-    const Create = instance.findCash();
+    const data = {
+      key: 'someKindOfCache'
+    };
+    const instance = new Cache(data);
+    const Create = instance.findCache();
     Create.then(result => {
-      expect(result.key).to.equal(key);
+      expect(result.key).to.equal(data.key);
       done();
     });
   });
 
   it('should update current cache with this newKey', done => {
-    const key = 'someKindOfCache';
-    const newKey = 'someOtherCache';
-    const instance = new Cache(key, null, newKey);
+    const data = {
+      key: 'someKindOfCache',
+      newKey: 'someOtherCache'
+    };
+    const instance = new Cache(data);
     const Create = instance.updateOne();
     Create.then(result => {
-      expect(result.key).to.equal(newKey);
+      expect(result.key).to.equal(data.newKey);
       done();
     });
   });
 
-  it('should update current cache with this newKey', done => {
-    const key = 'someOtherCache';
-    const ttl = 30;
-    const instance = new Cache(key, ttl);
-    const Create = instance.updateOne();
+  it('should update current cache with this key', done => {
+    const data = { key: 'someOtherCache' };
+    const instance = new Cache(data);
+    const Create = instance.updateForFindCache();
     Create.then(result => {
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.key);
       done();
     });
   });
 
   it('should update both current cache key and ttl', done => {
-    const key = 'someOtherCache';
-    const ttl = 40;
-    const newKey = 'otherCache';
-    const instance = new Cache(key, ttl, newKey);
+    const data = {
+      key: 'someOtherCache',
+      ttl: 40,
+      newKey: 'otherCache',
+      value: 'randomString'
+    };
+    const instance = new Cache(data);
     const Create = instance.updateOne();
     Create.then(result => {
-      expect(result.key).to.equal(newKey);
-      expect(result.ttl).to.equal(ttl);
+      expect(result.key).to.equal(data.newKey);
+      expect(result.ttl).to.equal(data.ttl);
+      expect(result.value).to.equal(data.value);
       done();
     });
   });
 
   it('should not remove any cached doc', done => {
-    const key = 'nonExistant';
-    const instance = new Cache(key);
+    const data = { key: 'nonExistant' };
+    const instance = new Cache(data);
     const Create = instance.deleteOneCache();
     Create.then(result => {
       expect(result).to.equal(false);
@@ -178,8 +203,8 @@ describe('Cache Tests', () => {
   });
 
   it('should remove one cached doc', done => {
-    const key = 'otherCache';
-    const instance = new Cache(key);
+    const data = { key: 'otherCache' };
+    const instance = new Cache(data);
     const Create = instance.deleteOneCache();
     Create.then(result => {
       expect(result).to.equal('Success!');
