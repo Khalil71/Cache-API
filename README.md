@@ -70,6 +70,30 @@ DELETE /:key
 DELETE /
 ```
 
+### configs
+
+```
+src/config/config.js
+```
+
+In this file you will be able to configure :-
+
+```
+defaultTTL  : whcich is the default ttl time in seconds
+```
+
+```
+stringGenLength: length of the random string generated
+```
+
+```
+cacheLimit: how many docs are allowed in a Collection
+```
+
+```
+scondsToMilli: The number to be multiplied to be added as ttl
+```
+
 ## Author
 
 * **Mohamed Hegab** - _Github link_ - [Khalil71](https://github.com/Khalil71)
