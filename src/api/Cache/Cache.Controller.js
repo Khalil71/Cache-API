@@ -1,4 +1,4 @@
-const Cash = require('./Cache.Service');
+const Cache = require('./Cache.Service');
 const { errResponse } = require('../../services/errors');
 const valid = require('../../services/validation');
 
@@ -7,14 +7,14 @@ module.exports = {
     if (!req.params.key || !valid.string.test(req.params.key)) {
       return next(errResponse('Key must be a string', 403));
     }
-    const instance = new Cash(req.params.key);
+    const instance = new Cache(req.params);
     return instance
-      .findCash()
+      .findCache()
       .then(data => {
         if (data === true) {
           console.log('Cache hit'); // eslint-disable-line
           return instance
-            .updateOne()
+            .updateForFindCache()
             .then(result => res.status(200).send(result))
             .catch(e => next(errResponse(e, 403)));
         }
@@ -24,7 +24,7 @@ module.exports = {
         }
         console.log('Cache miss'); // eslint-disable-line
         return instance
-          .addCash()
+          .addCache()
           .then(result => res.status(200).send(result))
           .catch(e => next(errResponse(e, 403)));
       })
@@ -32,7 +32,7 @@ module.exports = {
   },
 
   getAllCachedData: (req, res, next) => {
-    const instance = new Cash();
+    const instance = new Cache();
     return instance
       .getAll()
       .then(data => {
@@ -54,14 +54,17 @@ module.exports = {
     if (req.body.ttl && !valid.number.test(req.body.ttl)) {
       return next(errResponse('ttl must be a number!', 403));
     }
+    if (req.body.value && !valid.string.test(req.body.value)) {
+      return next(errResponse('value must be a string!', 403));
+    }
 
-    const instance = new Cash(req.body.key, req.body.ttl, req.body.newKey);
+    const instance = new Cache(req.body);
     return instance
       .updateOne()
       .then(data => {
         if (data === null) {
           return instance
-            .addCash()
+            .addCache()
             .then(result => res.status(200).send(result))
             .catch(e => next(errResponse(e, 403)));
         }
@@ -74,7 +77,7 @@ module.exports = {
     if (!req.params.key || !valid.string.test(req.params.key)) {
       return next(errResponse('key must be a string', 403));
     }
-    const instance = new Cash(req.params.key);
+    const instance = new Cache(req.params);
     return instance
       .deleteOneCache()
       .then(data => {
@@ -87,7 +90,7 @@ module.exports = {
   },
 
   removeAll: (req, res, next) => {
-    const instance = new Cash();
+    const instance = new Cache();
     return instance
       .deleteAllCache()
       .then(data => {
