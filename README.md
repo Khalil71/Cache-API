@@ -79,7 +79,7 @@ src/config/config.js
 In this file you will be able to configure :-
 
 ```
-defaultTTL  : whcich is the default ttl time in seconds
+defaultTTL: whcich is the default ttl time in seconds
 ```
 
 ```
