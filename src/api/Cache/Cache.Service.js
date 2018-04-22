@@ -1,7 +1,7 @@
 const CacheModel = require('../../models/cache');
 const { randomString } = require('../../services/generator');
 const { scondsToMilli } = require('../../config/config');
-const { getKeys } = require('../../services/loopFunctions');
+const { getKeys, bulkUpdate } = require('../../services/loopFunctions');
 
 class Cache {
   constructor(data) {
@@ -29,15 +29,7 @@ class Cache {
   }
 
   updateExpiredInBulk(keys) {
-    const data = [];
-    for (let i = 0; i < keys.length; i += 1) {
-      data.push({
-        updateOne: {
-          filter: { key: keys[i] },
-          update: { $set: { value: randomString(), createdAt: new Date() } }
-        }
-      });
-    }
+    const data = bulkUpdate(keys);
     return CacheModel.collection
       .bulkWrite(data)
       .then(result => result)
