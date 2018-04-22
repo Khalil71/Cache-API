@@ -28,7 +28,7 @@ class Cache {
       .catch(e => e);
   }
 
-  updateAll(ids) {
+  updateAllExpired(ids) {
     return CacheModel.update(
       { _id: { $in: ids } },
       { $set: { value: randomString(), createdAt: new Date() } },
