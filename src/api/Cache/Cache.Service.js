@@ -1,7 +1,7 @@
 const CacheModel = require('../../models/cache');
 const { randomString } = require('../../services/generator');
 const { scondsToMilli } = require('../../config/config');
-const { getIds } = require('../../services/loopFunctions');
+const { getKeys } = require('../../services/loopFunctions');
 
 class Cache {
   constructor(data) {
@@ -19,7 +19,7 @@ class Cache {
         if (result.length === 0) {
           return result;
         }
-        const data = getIds(result);
+        const data = getKeys(result);
         if (data.length === 0) {
           return result;
         }
@@ -28,9 +28,9 @@ class Cache {
       .catch(e => e);
   }
 
-  updateAllExpired(ids) {
+  updateAllExpired(keys) {
     return CacheModel.update(
-      { _id: { $in: ids } },
+      { key: { $in: keys } },
       { $set: { value: randomString(), createdAt: new Date() } },
       { multi: true }
     )

@@ -2,14 +2,14 @@ const { scondsToMilli } = require('../config/config');
 // const { randomString } = require('./generator');
 
 module.exports = {
-  getIds: arr => {
-    const Ids = [];
+  getKeys: arr => {
+    const Keys = [];
     for (let i = 0; i < arr.length; i += 1) {
       if (Date.parse(arr[i].createdAt) + arr[i].ttl * scondsToMilli < Date.parse(new Date())) {
-        Ids.push(arr[i].id);
+        Keys.push(arr[i].key);
       }
     }
-    return Ids;
+    return Keys;
   }
   // ExpiredCacheFilter: arr => {
   //   const newCache = arr
