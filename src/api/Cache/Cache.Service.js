@@ -1,6 +1,7 @@
-const CasheModel = require('../../models/cache');
+const CacheModel = require('../../models/cache');
 const { randomString } = require('../../services/generator');
 const { scondsToMilli } = require('../../config/config');
+const { getIds } = require('../../services/loopFunctions');
 
 class Cache {
   constructor(data) {
@@ -13,13 +14,32 @@ class Cache {
   }
 
   getAll() {
-    return CasheModel.find()
+    return CacheModel.find()
+      .then(result => {
+        if (result.length === 0) {
+          return result;
+        }
+        const data = getIds(result);
+        if (data.length === 0) {
+          return result;
+        }
+        return data;
+      })
+      .catch(e => e);
+  }
+
+  updateAll(ids) {
+    return CacheModel.update(
+      { _id: { $in: ids } },
+      { $set: { value: randomString(), createdAt: new Date() } },
+      { multi: true }
+    )
       .then(result => result)
       .catch(e => e);
   }
 
   findCache() {
-    return CasheModel.findOne({ key: this.key })
+    return CacheModel.findOne({ key: this.key })
       .then(result => {
         // check if cache expired return true for the cache to be updated
         // else return cache
@@ -38,7 +58,7 @@ class Cache {
     const newCache = {};
     newCache.value = randomString();
     newCache.createdAt = new Date();
-    return CasheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
+    return CacheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
       .then(result => result)
       .catch(e => e);
   }
@@ -52,7 +72,7 @@ class Cache {
       newCache.value = this.value;
     }
     newCache.key = this.key;
-    const cash = new CasheModel(newCache);
+    const cash = new CacheModel(newCache);
     return cash
       .save()
       .then(result => result)
@@ -72,13 +92,13 @@ class Cache {
     }
     // if cache is updated the ttl is automatically reset by setting createdAt to new Date()
     newCache.createdAt = new Date();
-    return CasheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
+    return CacheModel.findOneAndUpdate({ key: this.key }, newCache, { new: true })
       .then(result => result)
       .catch(e => e);
   }
 
   deleteOneCache() {
-    return CasheModel.remove({ key: this.key })
+    return CacheModel.remove({ key: this.key })
       .then(result => {
         if (result.n > 0) {
           return 'Success!';
@@ -89,7 +109,7 @@ class Cache {
   }
 
   deleteAllCache() {
-    return CasheModel.remove()
+    return CacheModel.remove()
       .then(result => {
         if (result.n > 0) {
           return 'Success!';

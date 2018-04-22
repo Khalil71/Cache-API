@@ -8,11 +8,11 @@ mongoose.Promise = global.Promise;
 const casheSchema = new mongoose.Schema({
   key: {
     type: String,
+    unique: true,
     required: true
   },
   value: {
     type: String,
-    unique: true,
     default: randomString
   },
   ttl: { type: Number, default: defaultTTL, required: true },

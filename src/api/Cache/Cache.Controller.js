@@ -39,7 +39,18 @@ module.exports = {
         if (data.length === 0) {
           return res.status(200).send({ message: 'Collection empty!' });
         }
-        return res.status(200).send(data);
+        if (data.value) {
+          return res.status(200).send(data);
+        }
+        return instance
+          .updateAll(data)
+          .then(() =>
+            instance
+              .getAll()
+              .then(newData => res.status(200).send(newData))
+              .catch(() => next(errResponse('Cannot recall cache')))
+          )
+          .catch(() => next(errResponse('Cannot update old Cache', 403)));
       })
       .catch(e => next(errResponse(e, 403)));
   },
