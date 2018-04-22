@@ -16,7 +16,7 @@ module.exports = {
           return instance
             .updateForFindCache()
             .then(result => res.status(200).send(result))
-            .catch(e => next(errResponse(e, 403)));
+            .catch(() => next(errResponse('Cannot update old cache!', 403)));
         }
         if (data !== true && data !== null) {
           console.log('Cache hit'); // eslint-disable-line
@@ -26,9 +26,9 @@ module.exports = {
         return instance
           .addCache()
           .then(result => res.status(200).send(result))
-          .catch(e => next(errResponse(e, 403)));
+          .catch(() => next(errResponse('Cannot add cache!', 403)));
       })
-      .catch(e => next(errResponse(e, 403)));
+      .catch(() => next(errResponse('Cannot find cache!', 403)));
   },
 
   getAllCachedData: (req, res, next) => {
@@ -48,11 +48,11 @@ module.exports = {
             instance
               .getAll()
               .then(newData => res.status(200).send(newData))
-              .catch(() => next(errResponse('Cannot recall cache')))
+              .catch(() => next(errResponse('Cannot recall cache', 403)))
           )
-          .catch(() => next(errResponse('Cannot update old Cache', 403)));
+          .catch(() => next(errResponse('Cannot update old cache', 403)));
       })
-      .catch(e => next(errResponse(e, 403)));
+      .catch(() => next(errResponse('Cannot get all cache', 403)));
   },
 
   createOrUpdateCache: (req, res, next) => {
@@ -77,7 +77,7 @@ module.exports = {
           return instance
             .addCache()
             .then(result => res.status(200).send(result))
-            .catch(e => next(errResponse(e, 403)));
+            .catch(() => next(errResponse('Cannot update cache!', 403)));
         }
         return res.status(200).send(data);
       })
@@ -97,7 +97,7 @@ module.exports = {
         }
         return res.status(200).send({ message: data });
       })
-      .catch(e => next(errResponse(e, 403)));
+      .catch(() => next(errResponse('Cannot delete cache!', 403)));
   },
 
   removeAll: (req, res, next) => {
@@ -110,6 +110,6 @@ module.exports = {
         }
         return res.status(200).send({ message: data });
       })
-      .catch(e => next(errResponse(e, 403)));
+      .catch(() => next(errResponse('Cannot delete all cache!', 403)));
   }
 };
