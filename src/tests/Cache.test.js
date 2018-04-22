@@ -119,6 +119,16 @@ describe('Cache Tests', () => {
     });
   });
 
+  it('should update 3 collections', done => {
+    const keys = ['someKindOfCache2', 'someCache2', 'someKindOfCache1'];
+    const instance = new Cache();
+    const Create = instance.updateAllExpired(keys);
+    Create.then(result => {
+      expect(result.n).to.equal(3);
+      done();
+    });
+  });
+
   it('should find no cache', done => {
     const data = {
       key: 'someOtherCache'
@@ -235,6 +245,13 @@ describe('Cache Tests', () => {
     const Create = instance.getAll();
     Create.then(result => {
       expect(result.length).to.equal(0);
+      done();
+    });
+  });
+
+  after(done => {
+    mongoose.connection.db.dropCollection('caches', () => {
+      console.log('Caches collection dropped'); // eslint-disable-line
       done();
     });
   });

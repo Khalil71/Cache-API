@@ -1,5 +1,4 @@
 const { scondsToMilli } = require('../config/config');
-// const { randomString } = require('./generator');
 
 module.exports = {
   getKeys: arr => {
@@ -11,14 +10,4 @@ module.exports = {
     }
     return Keys;
   }
-  // ExpiredCacheFilter: arr => {
-  //   const newCache = arr
-  //     .filter(elm => Date.parse(elm.createdAt) + elm.ttl * scondsToMilli < Date.parse(new Date()))
-  //     .map(elm => {
-  //       elm.value = randomString();
-  //       elm.createdAt = new Date();
-  //       return elm;
-  //     });
-  //   return newCache;
-  // }
 };
