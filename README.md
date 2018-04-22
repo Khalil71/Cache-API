@@ -50,7 +50,7 @@ GET /:key
 
 ### Add/update cache
 
-body: (key[string]: required) (newKey[string]) (ttl[number])
+body: (key [string]: required) (newKey [string]) (ttl [number]) (value [string])
 
 ```
 POST /
