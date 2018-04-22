@@ -43,7 +43,7 @@ module.exports = {
           return res.status(200).send(data);
         }
         return instance
-          .updateAllExpired(data)
+          .updateExpiredInBulk(data)
           .then(() =>
             instance
               .getAll()

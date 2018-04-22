@@ -123,9 +123,9 @@ describe('Cache Tests', () => {
   it('should update 3 collections', done => {
     const keys = ['someKindOfCache2', 'someCache2', 'someKindOfCache1'];
     const instance = new Cache();
-    const Create = instance.updateAllExpired(keys);
+    const Create = instance.updateExpiredInBulk(keys);
     Create.then(result => {
-      expect(result.n).to.equal(3);
+      expect(result.modifiedCount).to.equal(3);
       done();
     });
   });

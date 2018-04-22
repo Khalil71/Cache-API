@@ -28,12 +28,18 @@ class Cache {
       .catch(e => e);
   }
 
-  updateAllExpired(keys) {
-    return CacheModel.update(
-      { key: { $in: keys } },
-      { $set: { value: randomString(), createdAt: new Date() } },
-      { multi: true }
-    )
+  updateExpiredInBulk(keys) {
+    const data = [];
+    for (let i = 0; i < keys.length; i += 1) {
+      data.push({
+        updateOne: {
+          filter: { key: keys[i] },
+          update: { $set: { value: randomString(), createdAt: new Date() } }
+        }
+      });
+    }
+    return CacheModel.collection
+      .bulkWrite(data)
       .then(result => result)
       .catch(e => e);
   }
