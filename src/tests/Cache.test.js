@@ -1,12 +1,13 @@
 const { expect } = require('chai');
 const mongoose = require('mongoose');
 
+const { dbURL } = require('../config/config');
 const Cache = require('../api/Cache/Cache.Service');
 const { cacheLimit } = require('../config/config');
 
 describe('Cache Tests', () => {
   before(done => {
-    mongoose.connect('mongodb://test:test@ds251179.mlab.com:51179/fashiontest');
+    mongoose.connect(dbURL);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error')); // eslint-disable-line
     db.once('open', () => {

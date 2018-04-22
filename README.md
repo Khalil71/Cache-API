@@ -94,6 +94,10 @@ cacheLimit: how many docs are allowed in a Collection
 scondsToMilli: The number to be multiplied to be added as ttl
 ```
 
+```
+dbURL: URL to remote MongoDB
+```
+
 ## Author
 
 * **Mohamed Hegab** - _Github link_ - [Khalil71](https://github.com/Khalil71)

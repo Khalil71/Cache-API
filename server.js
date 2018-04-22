@@ -6,12 +6,13 @@ const cookieParser = require('cookie-parser');
 
 const { errResponse } = require('./src/services/errors');
 const routes = require('./src/routes/routes');
+const { dbURL } = require('./src/config/config');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 mongoose
-  .connect(`mongodb://${process.env.USER}:${process.env.PASS}@ds251179.mlab.com:51179/fashiontest`)
+  .connect(dbURL)
   .then(() => {
     console.log('mongoose connection success'); // eslint-disable-line
   })
