@@ -111,15 +111,6 @@ describe('Cache Tests', () => {
     });
   });
 
-  it('should find only 5 collections', done => {
-    const instance = new Cache();
-    const Create = instance.getAll();
-    Create.then(result => {
-      expect(result.length).to.equal(cacheLimit);
-      done();
-    });
-  });
-
   it('should update 3 collections', done => {
     const keys = ['someKindOfCache2', 'someCache2', 'someKindOfCache1'];
     const instance = new Cache();
@@ -138,6 +129,15 @@ describe('Cache Tests', () => {
     const Create = instance.findCache();
     Create.then(result => {
       expect(result).to.equal(null);
+      done();
+    });
+  });
+
+  it('should find only 5 collections', done => {
+    const instance = new Cache();
+    const Create = instance.getAll();
+    Create.then(result => {
+      expect(result.length).to.equal(cacheLimit);
       done();
     });
   });
